@@ -15,5 +15,5 @@
 ---
 <br>
 
-### 이미지 지우기 AI 탐색과정 (#1)
-### 독립적인 Docker Python 환경에서 LaMa 구동 Test (#2)
+### 이미지 지우기 AI 탐색과정 (https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/issues/1)
+### 독립적인 Docker Python 환경에서 LaMa 구동 Test (https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/issues/2)
