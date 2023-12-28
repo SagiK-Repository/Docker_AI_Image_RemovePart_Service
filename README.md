@@ -16,8 +16,13 @@
 <br>
 
 ### 이미지 지우기 AI 탐색과정 (https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/issues/1)
+
+<br>
+
 ### Web VSCode Jupyter Image Mask Drawing (https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/issues/4)
 <img src="https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/assets/66783849/f926b56a-1e32-4519-a533-f15684f270ad" width=50%/>
+
+<br>
 
 ### 독립적인 Docker Python 환경에서 LaMa 구동 Test (https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/issues/2)
 <img src="https://private-user-images.githubusercontent.com/66783849/293121219-eef72bf2-0912-4027-950c-610e3a91d4ea.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MDM3Mjg0MTIsIm5iZiI6MTcwMzcyODExMiwicGF0aCI6Ii82Njc4Mzg0OS8yOTMxMjEyMTktZWVmNzJiZjItMDkxMi00MDI3LTk1MGMtNjEwZTNhOTFkNGVhLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzEyMjglMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMxMjI4VDAxNDgzMlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTkxNmIzZTRlOGYzMjI5NGUwNjA5ZTVkNjcxNTM4NjkzODQ2ZWM3MDEzN2MyMDlmNDI4MTU3OTk4ZDkzYjY4OTYmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.ma-hIUDC3pFqIL_30oXP91p6TdsgHrPFSOI_cbJ8qvw" width=50%/>
