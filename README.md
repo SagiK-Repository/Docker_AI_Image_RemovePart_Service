@@ -6,7 +6,9 @@
 이미지 일부분 제거, 도커를 활용한 웹사이트 활용 프로그램
 
 ### 목표
-- [ ] 0. 프로젝트 설계
+- [ ] 이미지 지우기 AI 탐색
+- [x] Web VSCode Jupyter Image Mask Drawing
+- [x] 독립적인 Docker Python 환경에서 LaMa 구동 Test
 
 ### 제작자
 [@SAgiKPJH](https://github.com/SAgiKPJH)
