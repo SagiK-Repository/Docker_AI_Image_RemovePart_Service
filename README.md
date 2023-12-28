@@ -17,3 +17,5 @@
 
 ### 이미지 지우기 AI 탐색과정 (https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/issues/1)
 ### 독립적인 Docker Python 환경에서 LaMa 구동 Test (https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/issues/2)
+### Web VSCode Jupyter Image Mask Drawing (#4)
+![image](https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/assets/66783849/f926b56a-1e32-4519-a533-f15684f270ad)
