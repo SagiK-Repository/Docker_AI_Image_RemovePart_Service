@@ -33,6 +33,10 @@
 - 빠른 시작
   ```bash
   docker run -it --gpus all --name vscode-container -p 18087:8080 juhyung1021/docker-vscode-python_lama:1.0-cpu
+
+  # or
+  
+  nvidia-docker run -it -p 18087:8080 -d juhyung1021/docker-vscode-python_lama:1.0-cpu
   ```
 - 이후 브라우저를 통해 `127.0.0.1:18087`로 이동 후 Login 합니다.  
   - ID : user  
