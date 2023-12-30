@@ -1,0 +1,44 @@
+FROM ubuntu:20.04
+
+# 필요한 패키지 설치, cache 비우기
+RUN apt-get update && \
+    apt-get install -y curl sudo pip git unzip
+
+# 새로운 사용자 생성 및 비밀번호 설정
+ENV USER="user" \
+    PASSWORD="password"
+RUN useradd -m ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USER} sudo
+
+# code-server 설치 및 세팅
+ENV WORKINGDIR="/home/${USER}/vscode"
+RUN curl -fsSL https://code-server.dev/install.sh | sh && \
+    mkdir ${WORKINGDIR}
+    
+# 확장 설치
+RUN code-server --install-extension "ms-python.python" \ 
+                --install-extension "ms-toolsai.jupyter"
+
+# LaMa Git
+RUN git clone https://github.com/advimman/lama.git ${WORKINGDIR}/lama
+
+# LaMa pip install torch
+RUN pip install torch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 torchtext==0.9
+RUN pip install -r ${WORKINGDIR}/lama/requirements.txt --quiet
+RUN pip install wget --quiet
+RUN pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html --quiet
+
+RUN curl -LJO https://huggingface.co/smartywu/big-lama/resolve/main/big-lama.zip
+RUN mkdir ${WORKINGDIR}/big-lama
+RUN unzip big-lama.zip -d ${WORKINGDIR}
+RUN rm big-lama.zip
+
+RUN pip uninstall opencv-python-headless -y --quiet
+RUN pip install opencv-python-headless==4.1.2.30 --quiet
+
+RUN sudo apt-get install -y libglib2.0-dev
+
+# code-server 시작
+ENTRYPOINT nohup code-server --bind-addr 0.0.0.0:8080 --auth password  ${WORKINGDIR}
+
+# docker build --no-cache -t juhyung1021/docker-lama .
+# docker run -it --gpus all --name docker-lama -p 18087:8080 -d juhyung1021/docker-lama
