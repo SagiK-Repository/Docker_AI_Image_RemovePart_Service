@@ -7,8 +7,9 @@
 
 ### 목표
 - [ ] 이미지 지우기 AI 탐색
-- [x] Web VSCode Jupyter Image Mask Drawing
-- [x] 독립적인 Docker Python 환경에서 LaMa 구동 Test
+- [x] [Web VSCode Jupyter Image Mask Drawing](#web-vscode-jupyter-image-mask-drawing-httpsgithubcomsagik-repositorydocker_ai_image_removepart_serviceissues4)
+- [x] [독립적인 Docker Python 환경에서 LaMa 구동 Test](#독립적인-docker-python-환경에서-lama-구동-test-httpsgithubcomsagik-repositorydocker_ai_image_removepart_serviceissues2)
+- [x] [GPU 활용한 LaMa 구동](#gpu-활용한-lama-구동-httpsgithubcomsagik-repositorydocker_ai_image_removepart_serviceissues5)
 
 ### 제작자
 [@SAgiKPJH](https://github.com/SAgiKPJH)
