@@ -50,7 +50,9 @@
 
 ### GPU 활용한 LaMa 구동 (https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/issues/5)
 
--빠른 시작
+![image](https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/assets/66783849/eb520ed7-6b5f-4f57-8914-2ca46630f131)
+  
+- 빠른 시작  
   - 환경 제공
   ```bash
   docker run -it --gpus all --name vscode-container -p 18087:8080 juhyung1021/docker-vscode-python_lama:11.1-gpu
