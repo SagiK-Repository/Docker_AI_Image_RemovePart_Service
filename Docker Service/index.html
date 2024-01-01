@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+
+    button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+    label {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <img id="myImage" src="./image/image.png" style="display:none;">
+  <canvas id="myCanvas" width="500" height="500"></canvas>
+  <canvas id="maskCanvas" width="500" height="500" style="display:none;"></canvas>
+  <button id="uploadButton" onclick="uploadImage()">Upload</button>
+  <button id="runButton" onclick="runImage()">Run</button>
+  <button id="clearButton" onclick="clearCanvas()">Clear</button>
+  <button id="saveButton" onclick="saveImage()">Save</button>
+  <label id="result">Running Time:</label>
+  <canvas id="resultCanvas" width="500" height="500"></canvas>
+
+<script>
+
+  // -------------------- drawing -----------------------
+  var canvas = document.getElementById("myCanvas");
+  var ctx_img = canvas.getContext("2d");
+  let isDrawing = false;
+  
+  var image = document.getElementById("myImage");
+  image.onload = function() {{
+    ctx_img.drawImage(image, 0, 0, 500, 500);
+  }};
+
+  var canvas2 = document.getElementById("maskCanvas");
+  var ctx_mask = canvas2.getContext("2d");
+  ctx_mask.fillStyle = 'black';
+  ctx_mask.fillRect(0, 0, canvas.width, canvas.height);
+    
+  function startDrawing(e) {
+       isDrawing = true;
+  
+       const rect = e.target.getBoundingClientRect();
+       const x = getEventX(e);
+       const y= getEventY(e);
+  
+       ctx_img.beginPath();
+       ctx_img.moveTo(x, y);
+       ctx_mask.beginPath();
+       ctx_mask.moveTo(x, y);
+  }
+  
+  function draw(e) {
+       if (!isDrawing) return;
+  
+       const rect= e.target.getBoundingClientRect();
+       const x= getEventX(e);
+       const y= getEventY(e);
+  
+       ctx_img.strokeStyle = "red";
+       ctx_img.lineWidth = 20; // 선 굵기 설정 (4로 변경)
+       ctx_img.lineTo(x,y);
+       ctx_img.stroke();
+       ctx_mask.strokeStyle = "white";
+       ctx_mask.lineWidth = 20; // 선 굵기 설정 (4로 변경)
+       ctx_mask.lineTo(x,y);
+       ctx_mask.stroke();
+  }
+  
+  function stopDrawing() {
+          isDrawing=false; 
+  }
+  
+  function getEventX(event) {
+     return event.type.includes('mouse') ? event.clientX - event.target.getBoundingClientRect().left : event.touches[0].clientX - event.target.getBoundingClientRect().left;
+  }
+  
+  function getEventY(event) {
+     return event.type.includes('mouse') ? event.clientY - event.target.getBoundingClientRect().top : event.touches[0].clientY -event.target.getBoundingClientRect().top;
+  }
+  
+  canvas.addEventListener('mousedown', startDrawing);
+  canvas.addEventListener('mousemove', draw);
+  window.addEventListener('mouseup', stopDrawing);
+  
+  canvas.addEventListener('touchstart', startDrawing);
+  canvas.addEventListener('touchmove', draw);
+  window.addEventListener('touchend', stopDrawing);
+
+  function clearCanvas() {
+    ctx_mask.fillStyle = 'white';
+    ctx_mask.fillRect(0, 0, canvas.width, canvas.height);
+    image.onload = function() {{
+        ctx_img.drawImage(image, 0, 0, 500, 500);
+    }};
+  }
+  
+  function saveImage() {{
+  }}
+</script>
+
+</body>
+</html>
