@@ -4,6 +4,7 @@ import numpy as np
 import base64
 from PIL import Image
 import io
+import subprocess
 
 app = Flask(__name__)
 CORS(app) # 클라이언트로부터의 요청에 대해 모든 도메인에서 접근 허용(CORS 허용)
@@ -50,3 +51,10 @@ def running():
 if __name__ == '__main__':
 	app.run(host='0.0.0.0') # 포트 외부 접근 허용
      
+def runLaMa() :
+    # nvidia-smi 명령어 실행
+    result = subprocess.run(['PYTHONPATH=./lama TORCH_HOME=./lama python3 ./lama/bin/predict.py model.path=./big-lama indir=/var/www/html/image outdir=/var/www/html/outdir dataset.img_suffix=.png > /dev/null'], capture_output=True, text=True)
+    
+    # 실행 결과 출력
+    output = result.stdout
+    print(output)
