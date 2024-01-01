@@ -1,23 +1,65 @@
-# 베이스 이미지 지정
-FROM ubuntu:latest
+FROM nvidia/cuda:11.1.1-runtime-ubuntu20.04
 
-# 필요한 패키지 설치
+# 필요한 패키지 설치, cache 비우기
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-    apt-get install -y apache2 python3-pip && \
+    apt-get upgrade -y && \
+    apt-get install -y wget mc tmux nano build-essential rsync libgl1 curl git libglib2.0-dev unzip
+
+# User
+ENV USER="user" \
+    PASSWORD="password"
+RUN useradd -m ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USER} sudo
+
+# Install VSCode
+ENV WORKINGDIR="/home/${USER}"
+WORKDIR ${WORKINGDIR}
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+RUN code-server --install-extension "ms-python.python" \ 
+                --install-extension "ms-toolsai.jupyter"
+
+CMD nohup code-server --bind-addr 0.0.0.0:8080 --auth password  ${WORKINGDIR}
+
+# minconda3
+ARG USERNAME=user
+USER $USERNAME:$USERNAME
+ENV PATH="/home/$USERNAME/miniconda3/bin:/home/$USERNAME/.local/bin:${PATH}"
+ENV PYTHONPATH="/home/$USERNAME/project"
+ENV TORCH_HOME="/home/$USERNAME/.torch"
+
+RUN wget -O /tmp/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-py39_4.9.2-Linux-x86_64.sh && \
+    echo "536817d1b14cb1ada88900f5be51ce0a5e042bae178b5550e62f61e223deae7c /tmp/miniconda.sh" > /tmp/miniconda.sh.sha256 && \
+    sha256sum --check --status < /tmp/miniconda.sh.sha256 && \
+    bash /tmp/miniconda.sh -bt -p "/home/$USERNAME/miniconda3" && \
+    rm /tmp/miniconda.sh && \
+    conda build purge && \
+    conda init
+
+# LaMa install 
+RUN pip install -U pip
+RUN pip install torch==1.8.2+cu111 torchvision==0.9.2+cu111 -f https://download.pytorch.org/whl/lts/1.8/torch_lts.html
+RUN pip install numpy scipy opencv-python tensorflow joblib matplotlib pandas \
+    albumentations==0.5.2 pytorch-lightning==1.2.9 tabulate easydict==1.9.0 kornia==0.5.0 webdataset \
+    packaging gpustat tqdm pyyaml hydra-core==1.1.0.dev6 scikit-learn==0.24.2 tabulate
+RUN pip install scikit-image==0.17.2
+RUN pip install numpy==1.22.4
+
+# LaMa Setting
+RUN git clone https://github.com/advimman/lama.git ${WORKINGDIR}/lama
+
+RUN curl -LJO https://huggingface.co/smartywu/big-lama/resolve/main/big-lama.zip
+RUN unzip big-lama.zip -d ${WORKINGDIR}
+RUN rm big-lama.zip
+
+# Web Server
+RUN apt-get install -y apache2 && \
     rm -rf /var/lib/apt/lists/*
-
-RUN pip3 install numpy flask flask-cors Pillow
-
-# 작업 디렉터리를 지정
-WORKDIR /var/www/html/
-
-# COPY는 호스트의 파일이나 디렉터리를 컨테이너의 파일이나 디렉터리로 복사합니다.
 COPY . /var/www/html/
 
-# 웹 서버 포트 열기
 EXPOSE 80
 EXPOSE 5000
 
-# 웹 서버 실행
-CMD ["bash", "-c", "apachectl -D FOREGROUND & python3 /var/www/html/flaskservice.py"]
-# CMD ["apachectl", "-D", "FOREGROUND"]
+ENTRYPOINT ["bash", "-c", "apachectl -D FOREGROUND & python3 /var/www/html/flaskservice.py"]
+
+
