@@ -46,4 +46,24 @@
 
 📽️Video▶️ [<img src="https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/assets/66783849/43e76597-7052-4c04-b89e-44aea033aae6"/>](https://www.youtube.com/watch?v=WuArNdlpcgM)
 
+<br>
 
+### GPU 활용한 LaMa 구동 (https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/issues/5)
+
+-빠른 시작
+  - 환경 제공
+  ```bash
+  docker run -it --gpus all --name vscode-container -p 18087:8080 juhyung1021/docker-vscode-python_lama:11.1-gpu
+  
+  # or
+  
+  nvidia-docker run -it -p 18087:8080 -d juhyung1021/docker-vscode-python_lama:11.1-gpu
+  ```
+  - 필요 파일(image, jupyter file) setting 된 image
+  ```bash
+  docker run -it --gpus all --name vscode-container -p 18087:8080 juhyung1021/docker-vscode-python_lama:set-11.1-gpu
+  
+  # or
+  
+  nvidia-docker run -it -p 18087:8080 -d juhyung1021/docker-vscode-python_lama:set-11.1-gpu
+  ```
