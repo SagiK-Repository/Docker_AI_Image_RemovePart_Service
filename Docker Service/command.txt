@@ -1,6 +1,6 @@
 ----------------- Test ------------------
 # docker build
-docker build -t test .
+docker build -t test ./Test
 
 # docker run
 docker run -it --name test -p 10180:80 -p 10181:5000 -d test
@@ -9,8 +9,7 @@ docker run -it --name test -p 10180:80 -p 10181:5000 -d test
 
 
 # docker build
-docker build -t juhyung1021/number_python_docker_api_image .
+docker build --no-cache -t juhyung1021/docker-vscode-python_lama:2.0 .
 
 # docker run
-docker run -it --name number_python_docker_api -p 10180:80 -p 10181:5000 -d juhyung1021/number_python_docker_api_image:latest
-
+docker run -it --gpus all --name docker-vscode-python_lama -p 18087:8080 -d juhyung1021/docker-vscode-python_lama:2.0
