@@ -1,44 +1,57 @@
-FROM ubuntu:20.04
+FROM nvidia/cuda:11.1.1-runtime-ubuntu20.04
 
 # 필요한 패키지 설치, cache 비우기
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-    apt-get install -y curl sudo pip git unzip
+    apt-get upgrade -y && \
+    apt-get install -y wget mc tmux nano build-essential rsync libgl1 curl git libglib2.0-dev unzip
 
-# 새로운 사용자 생성 및 비밀번호 설정
+# User
 ENV USER="user" \
     PASSWORD="password"
 RUN useradd -m ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USER} sudo
 
-# code-server 설치 및 세팅
-ENV WORKINGDIR="/home/${USER}/vscode"
-RUN curl -fsSL https://code-server.dev/install.sh | sh && \
-    mkdir ${WORKINGDIR}
-    
-# 확장 설치
+# Install VSCode
+ENV WORKINGDIR="/home/${USER}"
+WORKDIR ${WORKINGDIR}
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+
 RUN code-server --install-extension "ms-python.python" \ 
                 --install-extension "ms-toolsai.jupyter"
 
-# LaMa Git
+CMD nohup code-server --bind-addr 0.0.0.0:8080 --auth password  ${WORKINGDIR}
+
+# minconda3
+ARG USERNAME=user
+USER $USERNAME:$USERNAME
+ENV PATH="/home/$USERNAME/miniconda3/bin:/home/$USERNAME/.local/bin:${PATH}"
+ENV PYTHONPATH="/home/$USERNAME/project"
+
+RUN wget -O /tmp/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-py39_4.9.2-Linux-x86_64.sh && \
+    echo "536817d1b14cb1ada88900f5be51ce0a5e042bae178b5550e62f61e223deae7c /tmp/miniconda.sh" > /tmp/miniconda.sh.sha256 && \
+    sha256sum --check --status < /tmp/miniconda.sh.sha256 && \
+    bash /tmp/miniconda.sh -bt -p "/home/$USERNAME/miniconda3" && \
+    rm /tmp/miniconda.sh && \
+    conda build purge && \
+    conda init
+
+# LaMa install 
+RUN pip install -U pip
+RUN pip install torch==1.8.2+cu111 torchvision==0.9.2+cu111 -f https://download.pytorch.org/whl/lts/1.8/torch_lts.html
+RUN pip install numpy scipy opencv-python tensorflow joblib matplotlib pandas \
+    albumentations==0.5.2 pytorch-lightning==1.2.9 tabulate easydict==1.9.0 kornia==0.5.0 webdataset \
+    packaging gpustat tqdm pyyaml hydra-core==1.1.0.dev6 scikit-learn==0.24.2 tabulate
+RUN pip install scikit-image==0.17.2
+RUN pip install numpy==1.22.4
+
+# LaMa Setting
 RUN git clone https://github.com/advimman/lama.git ${WORKINGDIR}/lama
 
-# LaMa pip install torch
-RUN pip install torch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 torchtext==0.9
-RUN pip install -r ${WORKINGDIR}/lama/requirements.txt --quiet
-RUN pip install wget --quiet
-RUN pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html --quiet
-
 RUN curl -LJO https://huggingface.co/smartywu/big-lama/resolve/main/big-lama.zip
-RUN mkdir ${WORKINGDIR}/big-lama
 RUN unzip big-lama.zip -d ${WORKINGDIR}
 RUN rm big-lama.zip
 
-RUN pip uninstall opencv-python-headless -y --quiet
-RUN pip install opencv-python-headless==4.1.2.30 --quiet
+ENV TORCH_HOME="/home/$USERNAME/.torch"
 
-RUN sudo apt-get install -y libglib2.0-dev
-
-# code-server 시작
-ENTRYPOINT nohup code-server --bind-addr 0.0.0.0:8080 --auth password  ${WORKINGDIR}
-
-# docker build --no-cache -t juhyung1021/docker-lama .
-# docker run -it --gpus all --name docker-lama -p 18087:8080 -d juhyung1021/docker-lama
+# docker build --no-cache -t juhyung1021/docker-vscode-python_lama:11.1-gpu .
+# docker run -it --gpus all --name docker-vscode-python_lama -p 18087:8080 -d juhyung1021/docker-vscode-python_lama:11.1-gpu
