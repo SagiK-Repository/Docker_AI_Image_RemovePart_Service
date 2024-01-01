@@ -27,7 +27,8 @@
   </style>
 </head>
 <body>
-  <img id="myImage" src="./image/image.png" style="display:none;">
+  <img id="inputImage" src="./image/image.png" style="display:none;">
+  <img id="outputImage" src="./output/image.png" style="display:none;">
   <canvas id="myCanvas" width="500" height="500"></canvas>
   <canvas id="maskCanvas" width="500" height="500" style="display:none;"></canvas>
   <button id="uploadButton">Upload</button>
@@ -44,7 +45,7 @@
   var ctx_img = canvas.getContext("2d");
   let isDrawing = false;
   
-  var image = document.getElementById("myImage");
+  var image = document.getElementById("inputImage");
   image.onload = function() {{
     ctx_img.drawImage(image, 0, 0, 500, 500);
   }};
@@ -115,16 +116,95 @@
   var runButton = document.getElementById("runButton");
   var clearButton = document.getElementById("clearButton");
   var saveButton = document.getElementById("saveButton");
-  uploadButton.addEventListener("click", clearCanvas);
-  runButton.addEventListener("click", clearCanvas);
+  uploadButton.addEventListener("click", uploadImage);
+  runButton.addEventListener("click", runImage);
   clearButton.addEventListener("click", clearCanvas);
-  saveButton.addEventListener("click", clearCanvas);
-  function uploadImage() {{
-  }}
-  function runImage() {{
-  }}
-  function saveImage() {{
-  }}
+  saveButton.addEventListener("click", saveImage);
+
+  function uploadImage() {
+    var input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = function(event) {
+      var file = event.target.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement("maskCanvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+
+          var dataURL = canvas.toDataURL("image/png");
+          fetch('http://' + serverAddress + '/uploadImage', {
+            method: 'POST',
+            body: JSON.stringify({ image_data: dataURL }),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+          })
+        };
+        
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+    
+    input.click();
+  }
+  
+  const resultLabel = document.getElementById("result");
+  const serverAddress = window.location.hostname + ":10182";
+  function runImage() {
+    resultLabel.textContent = "Running Time: ...(Running)...";
+  
+    // 캔버스 이미지 데이터를 base64 형식으로 가져오기
+    const imageData = canvas2.toDataURL();
+  
+    // AJAX 요청을 통해 서버로 이미지 데이터 전송 및 결과 수신하기
+    fetch('http://' + serverAddress + '/running', {
+        method: 'POST',
+        body: JSON.stringify({ image_data: imageData }),
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        resultLabel.textContent = "Running Time: ";
+        loadOutputImage();
+    })
+    .catch(error => console.error('Error:', error));
+  }
+
+  function loadOutputImage(){
+    var outputImage = document.getElementById("outputImage");
+    var resultCanvas = document.getElementById("resultCanvas");
+    outputImage.onload = function() {
+        resultCanvas.drawImage(outputImage, 0, 0, 500, 500);
+    };
+  }
+
+  function saveImage() {
+    var outputImage = document.getElementById("outputImage");
+    var canvas = document.createElement("resultCanvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    outputImage.onload = function() {
+        ctx.drawImage(outputImage, 0, 0);
+    };
+
+    var link = document.createElement("a");
+    link.href = canvas.toDataURL("image/png");
+    link.download = "result.png";
+    link.click();
+
+    loadOutputImage();
+  }
 </script>
 
 </body>
