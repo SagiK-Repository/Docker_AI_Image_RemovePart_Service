@@ -122,6 +122,7 @@
   saveButton.addEventListener("click", saveImage);
 
   function uploadImage() {
+    console.info('Upload');
     var input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
@@ -132,7 +133,7 @@
       reader.onload = function(e) {
         var img = new Image();
         img.onload = function() {
-          var canvas = document.createElement("maskCanvas");
+          var canvas = document.createElement("canvas");
           canvas.width = img.width;
           canvas.height = img.height;
           var ctx = canvas.getContext("2d");
@@ -148,7 +149,8 @@
           })
         };
         
-        img.src = e.target.result;
+        image.src = e.target.result;
+        clearCanvas();
       };
       reader.readAsDataURL(file);
     };
@@ -157,7 +159,7 @@
   }
   
   const resultLabel = document.getElementById("result");
-  const serverAddress = window.location.hostname + ":10182";
+  const serverAddress = window.location.hostname + ":10181";
   function runImage() {
     resultLabel.textContent = "Running Time: ...(Running)...";
   
@@ -180,22 +182,25 @@
     .catch(error => console.error('Error:', error));
   }
 
-  function loadOutputImage(){
-    var outputImage = document.getElementById("outputImage");
-    var resultCanvas = document.getElementById("resultCanvas");
-    outputImage.onload = function() {
+  var outputImage = document.getElementById("outputImage");
+  outputImage.onload = function() {
         resultCanvas.drawImage(outputImage, 0, 0, 500, 500);
-    };
+  };
+
+  function loadOutputImage(){
+    var resultCanvas = document.getElementById("resultCanvas");
+    var ctx_img = resultCanvas.getContext("2d");
+    ctx_img.drawImage(outputImage, 0, 0, 500, 500);
   }
 
   function saveImage() {
-    var outputImage = document.getElementById("outputImage");
-    var canvas = document.createElement("resultCanvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
+    var canvas = document.createElement("canvas");
+    canvas.width = outputImage.width;
+    canvas.height = outputImage.height;
     var ctx = canvas.getContext("2d");
-    outputImage.onload = function() {
+    outputImage.onload = function(e) {
         ctx.drawImage(outputImage, 0, 0);
+        outputImage.src = e.target.result;
     };
 
     var link = document.createElement("a");

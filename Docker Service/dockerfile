@@ -12,7 +12,6 @@ RUN pip3 install numpy flask flask-cors Pillow
 WORKDIR /var/www/html/
 
 # COPY는 호스트의 파일이나 디렉터리를 컨테이너의 파일이나 디렉터리로 복사합니다.
-# 예를 들어, 현재 디렉터리의 모든 파일을 컨테이너의 /app 디렉터리로 복사합니다.
 COPY . /var/www/html/
 
 # 웹 서버 포트 열기

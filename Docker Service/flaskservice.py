@@ -22,19 +22,21 @@ def index():
     return "Hello, World!"
 
 @app.route('/uploadImage', methods=['POST'])
-def predict():
+def uploadImage():
+    print("uploadImage")
     # 이미지 데이터 받아오기 (JSON 형태)
     image_data_json=request.get_json()
     image_data = image_data_json['image_data']
 
     image = inaryImageToImage(image_data)
 
-    image.save('./image.png')
+    image.save('./image/image.png')
 
+    return ""
 
 @app.route('/running', methods=['POST'])
-def predict():
-    
+def running():
+    print("running")
     # 이미지 데이터 받아오기 (JSON 형태)
     image_data_json=request.get_json()
     image_data = image_data_json['image_data']
@@ -43,18 +45,8 @@ def predict():
 
     image.save('./image_mask.png')
 
-    # 이미지 크기 조정 및 전처리 수행 (MNIST 모델 기준)
-    image = Image.eval(image, lambda x: 255 - x) # 이미지 색상 반전
-    image = image.resize((28, 28))
-    image_array = np.array(image)
-    image_array = image_array / 255.0  # 정규화
-
-	# 예측 수행 (예시)
-    input_image = np.expand_dims(image_array, axis=0)  # 차원 변경 (1개 샘플)
-    predictions = model.predict(input_image)
-    prediction_result = np.argmax(predictions[0])  # 가장 높은 확률의 클래스 선택
-
-    return jsonify({'prediction': int(prediction_result)})
+    return jsonify({'prediction': int(0)})
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0') # 포트 외부 접근 허용
+     
