@@ -30,10 +30,10 @@
   <img id="myImage" src="./image/image.png" style="display:none;">
   <canvas id="myCanvas" width="500" height="500"></canvas>
   <canvas id="maskCanvas" width="500" height="500" style="display:none;"></canvas>
-  <button id="uploadButton" onclick="uploadImage()">Upload</button>
-  <button id="runButton" onclick="runImage()">Run</button>
-  <button id="clearButton" onclick="clearCanvas()">Clear</button>
-  <button id="saveButton" onclick="saveImage()">Save</button>
+  <button id="uploadButton">Upload</button>
+  <button id="runButton">Run</button>
+  <button id="clearButton">Clear</button>
+  <button id="saveButton">Save</button>
   <label id="result">Running Time:</label>
   <canvas id="resultCanvas" width="500" height="500"></canvas>
 
@@ -105,13 +105,24 @@
   window.addEventListener('touchend', stopDrawing);
 
   function clearCanvas() {
-    ctx_mask.fillStyle = 'white';
+    ctx_mask.fillStyle = 'black';
     ctx_mask.fillRect(0, 0, canvas.width, canvas.height);
-    image.onload = function() {{
-        ctx_img.drawImage(image, 0, 0, 500, 500);
-    }};
+    ctx_img.drawImage(image, 0, 0, 500, 500);
   }
   
+  // -------------------- button -----------------------
+  var uploadButton = document.getElementById("uploadButton");
+  var runButton = document.getElementById("runButton");
+  var clearButton = document.getElementById("clearButton");
+  var saveButton = document.getElementById("saveButton");
+  uploadButton.addEventListener("click", clearCanvas);
+  runButton.addEventListener("click", clearCanvas);
+  clearButton.addEventListener("click", clearCanvas);
+  saveButton.addEventListener("click", clearCanvas);
+  function uploadImage() {{
+  }}
+  function runImage() {{
+  }}
   function saveImage() {{
   }}
 </script>
