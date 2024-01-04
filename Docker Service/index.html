@@ -59,9 +59,9 @@
   let isDrawing = false;
   
   var image = document.getElementById("inputImage");
-  image.onload = function() {{
+  image.onload = function() {
     ctx_img.drawImage(image, 0, 0, 500, 500);
-  }};
+  };
 
   var canvas2 = document.getElementById("maskCanvas");
   var ctx_mask = canvas2.getContext("2d");
@@ -159,7 +159,7 @@
             headers:{
                 'Content-Type': 'application/json'
             }
-          })
+          });
         };
         
         image.src = e.target.result;
@@ -197,17 +197,14 @@
   }
 
   function saveImage() {
-    var canvas = document.createElement("canvas");
-    canvas.width = outputImage.width;
-    canvas.height = outputImage.height;
-    var ctx = canvas.getContext("2d");
-    outputImage.onload = function(e) {
-        ctx.drawImage(outputImage, 0, 0);
-        outputImage.src = e.target.result;
-    };
+    var vir_canvas = document.createElement("canvas");
+    // vir_canvas.width = outputImage.width;
+    // vir_canvas.height = outputImage.height;
+    var vir_ctx = vir_canvas.getContext("2d");
+    vir_ctx.drawImage(outputImage, 0, 0);
 
     var link = document.createElement("a");
-    link.href = canvas.toDataURL("image/png");
+    link.href = vir_canvas.toDataURL("image/png");
     link.download = "result.png";
     link.click();
 
