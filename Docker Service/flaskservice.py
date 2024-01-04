@@ -51,15 +51,8 @@ def running():
 
     resize_image.save('/var/www/html/image/image_mask.png')
 
-    return jsonify({'prediction': int(0)})
+    return runLaMa()
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0') # 포트 외부 접근 허용
      
-def runLaMa() :
-    # nvidia-smi 명령어 실행
-    result = subprocess.run(['PYTHONPATH=./lama TORCH_HOME=./lama python3 ./lama/bin/predict.py model.path=./big-lama indir=/var/www/html/image outdir=/var/www/html/outdir dataset.img_suffix=.png > /dev/null'], capture_output=True, text=True)
-    
-    # 실행 결과 출력
-    output = result.stdout
-    print(output)
