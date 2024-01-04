@@ -86,6 +86,8 @@
   image.onload = function() {
     ctx_img.drawImage(image, 0, 0, 500, 500);
   };
+  image.src = "./image/image.png"  + "?v=" + Date.now();
+
 
   var canvas2 = document.getElementById("maskCanvas");
   var ctx_mask = canvas2.getContext("2d");
