@@ -1,4 +1,4 @@
-문서정보 : 2023.12.19.~ 작성, 작성자 [@SAgiKPJH](https://github.com/SAgiKPJH)
+문서정보 : 2023.12.19.~2024.01.04 작성, 작성자 [@SAgiKPJH](https://github.com/SAgiKPJH)
 
 <br>
 
@@ -6,7 +6,7 @@
 이미지 일부분 제거, 도커를 활용한 웹사이트 활용 프로그램
 
 ### 목표
-- [ ] 이미지 지우기 AI 탐색
+- [x] [이미지 지우기 AI 탐색](#이미지-지우기-ai-탐색과정-httpsgithubcomsagik-repositorydocker_ai_image_removepart_serviceissues1)
 - [x] [Web VSCode Jupyter Image Mask Drawing](#web-vscode-jupyter-image-mask-drawing-httpsgithubcomsagik-repositorydocker_ai_image_removepart_serviceissues4)
 - [x] [독립적인 Docker Python 환경에서 LaMa 구동 Test](#독립적인-docker-python-환경에서-lama-구동-test-httpsgithubcomsagik-repositorydocker_ai_image_removepart_serviceissues2)
 - [x] [GPU 활용한 LaMa 구동](#gpu-활용한-lama-구동-httpsgithubcomsagik-repositorydocker_ai_image_removepart_serviceissues5)
