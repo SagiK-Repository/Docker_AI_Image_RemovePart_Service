@@ -4,7 +4,8 @@ FROM nvidia/cuda:11.1.1-runtime-ubuntu20.04
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y wget mc tmux nano build-essential rsync libgl1 curl git libglib2.0-dev unzip
+    apt-get install -y wget mc tmux nano build-essential rsync libgl1 curl git libglib2.0-dev unzip apache2 && \
+    rm -rf /var/lib/apt/lists/*
 
 # User
 ENV USER="user" \
@@ -44,6 +45,7 @@ RUN pip install numpy scipy opencv-python tensorflow joblib matplotlib pandas \
     packaging gpustat tqdm pyyaml hydra-core==1.1.0.dev6 scikit-learn==0.24.2 tabulate
 RUN pip install scikit-image==0.17.2
 RUN pip install numpy==1.22.4
+RUN pip install flask flask-cors Pillow
 
 # LaMa Setting
 RUN git clone https://github.com/advimman/lama.git ${WORKINGDIR}/lama
@@ -53,12 +55,17 @@ RUN unzip big-lama.zip -d ${WORKINGDIR}
 RUN rm big-lama.zip
 
 # Web Server
-RUN apt-get install -y apache2 && \
-    rm -rf /var/lib/apt/lists/*
 COPY . /var/www/html/
 
 EXPOSE 80
 EXPOSE 5000
+EXPOSE 8080
+
+# apachectl 실행에 root 권한이 필요.
+USER root
+
+ENV PYTHONPATH="/home/$USERNAME/lama"
+ENV TORCH_HOME="/home/$USERNAME/lama"
 
 ENTRYPOINT ["bash", "-c", "apachectl -D FOREGROUND & python3 /var/www/html/flaskservice.py"]
 
