@@ -176,7 +176,7 @@
           var ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0);
 
-          var dataURL = canvas.toDataURL("image/png");
+          var dataURL = canvas.toDataURL();
           fetch('http://' + serverAddress + '/uploadImage', {
             method: 'POST',
             body: JSON.stringify({ image_data: dataURL }),
@@ -186,6 +186,7 @@
           });
         };
         
+        img.src = e.target.result;
         image.src = e.target.result;
         clearCanvas();
       };
