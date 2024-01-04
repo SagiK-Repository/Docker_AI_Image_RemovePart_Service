@@ -29,6 +29,7 @@
 <body>
   <img id="inputImage" src="./image/image.png" style="display:none;">
   <img id="outputImage" src="./output/image_mask.png" style="display:none;">
+  <canvas id="maskCanvas" width="500" height="500" style="display:none;"></canvas>
 
   <div style="display:flex; flex-direction:row;">
     
@@ -38,6 +39,12 @@
     </div>
   
     <div style="display:flex; flex-direction:column; justify-content:center; ">
+       
+      <div class="draw-size" style="display: flex; align-items: center;">
+        <label for="size">DrawSize:</label>
+        <input type="number" id="size" name="size" min="1" max="100" value="20">
+      </div>
+
       <button id="uploadButton">Upload</button>
       <button id="clearButton">Clear</button>
       <div style="height: 50px;"></div>
@@ -105,11 +112,11 @@
        const y= getEventY(e);
   
        ctx_img.strokeStyle = "red";
-       ctx_img.lineWidth = 20; // 선 굵기 설정 (4로 변경)
+       ctx_img.lineWidth = document.getElementById("size").value;
        ctx_img.lineTo(x,y);
        ctx_img.stroke();
        ctx_mask.strokeStyle = "white";
-       ctx_mask.lineWidth = 20; // 선 굵기 설정 (4로 변경)
+       ctx_mask.lineWidth = document.getElementById("size").value; // 20; // 선 굵기 설정 (4로 변경)
        ctx_mask.lineTo(x,y);
        ctx_mask.stroke();
   }
