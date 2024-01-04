@@ -28,15 +28,31 @@
 </head>
 <body>
   <img id="inputImage" src="./image/image.png" style="display:none;">
-  <img id="outputImage" src="./output/image.png" style="display:none;">
-  <canvas id="myCanvas" width="500" height="500"></canvas>
-  <canvas id="maskCanvas" width="500" height="500" style="display:none;"></canvas>
-  <button id="uploadButton">Upload</button>
-  <button id="runButton">Run</button>
-  <button id="clearButton">Clear</button>
-  <button id="saveButton">Save</button>
-  <label id="result">Running Time:</label>
-  <canvas id="resultCanvas" width="500" height="500"></canvas>
+  <img id="outputImage" src="./output/image_mask.png" style="display:none;">
+
+  <div style="display:flex; flex-direction:row;">
+    
+    <div style="display:flex; flex-direction:column;">
+      <span style="align-self:center; margin-top:20px;">Input Image</span>
+      <canvas id="myCanvas" width="500" height="500"></canvas>
+    </div>
+  
+    <div style="display:flex; flex-direction:column; justify-content:center; ">
+      <button id="uploadButton">Upload</button>
+      <button id="clearButton">Clear</button>
+      <div style="height: 50px;"></div>
+      <button id="runButton">Run</button>
+      <button id="saveButton">Save</button>
+    </div>
+
+    <div style="display:flex; flex-direction:column;">
+      <span style="align-self:center; margin-top:20px;">Output Image</span>
+      <canvas id="resultCanvas" width="500" height="500"></canvas>
+    </div>
+  </div>
+  
+  <label id="result" style="margin-top: 10px;">Running Time:</label>
+  
 
 <script>
 
