@@ -32,10 +32,8 @@ def uploadImage():
 
     image = inaryImageToImage(image_data)
 
-    image_width = image.width
-    image_height = image.height
-
     image.save('/var/www/html/image/image.png')
+    image.save('/var/www/html/image/image_1.png')
 
     return ""
 
@@ -53,7 +51,7 @@ def runLaMa() :
     
     elapsed_time = time.time() - start_time
     
-    return jsonify({'prediction': int(elapsed_time)})
+    return jsonify({'prediction': round(elapsed_time, 3)})
 
 @app.route('/running', methods=['POST'])
 def running():
