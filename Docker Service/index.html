@@ -67,10 +67,11 @@
   
   var resultCanvas = document.getElementById("resultCanvas");
   var result_ctx = resultCanvas.getContext("2d");
-    var outputImage = document.getElementById("outputImage");
-    outputImage.onload = function() {
-      result_ctx.drawImage(outputImage, 0, 0, 500, 500);
-    };
+  var outputImage = document.getElementById("outputImage");
+  outputImage.onload = function() {
+    result_ctx.drawImage(outputImage, 0, 0, 500, 500);
+  };
+  outputImage.src = "./output/image_mask.png"  + "?v=" + Date.now();
 
   function loadOutputImage(){
     outputImage.src = "./output/image_mask.png"  + "?v=" + Date.now();
