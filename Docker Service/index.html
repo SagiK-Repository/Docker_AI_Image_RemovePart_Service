@@ -189,7 +189,7 @@
     })
     .then(response => response.json())
     .then(data => {
-        resultLabel.textContent = "Running Time: ";
+        resultLabel.textContent = "Running Time: " + data.prediction + "s";
         loadOutputImage();
     })
     .catch(error => console.error('Error:', error));
