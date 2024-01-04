@@ -38,6 +38,17 @@ def uploadImage():
 
     return ""
 
+def runLaMa() :
+    # result = subprocess.run(['PYTHONPATH=/home/user/lama TORCH_HOME=/home/user/lama python3 /home/user/lama/bin/predict.py model.path=/home/user/big-lama indir=/var/www/html/image outdir=/var/www/html/outdir dataset.img_suffix=.png > /dev/null'], capture_output=True, text=True)
+    command = ['python3', '/home/user/lama/bin/predict.py', 'model.path=/home/user/big-lama', 'indir=/var/www/html/image', 'outdir=/var/www/html/output', 'dataset.img_suffix=.png']
+    result = subprocess.run(command, capture_output=True, text=True)
+    
+    # 실행 결과 출력
+    output = result.stdout
+    print(output)
+    
+    return jsonify({'prediction': int(0)})
+
 @app.route('/running', methods=['POST'])
 def running():
     print("running")
