@@ -221,8 +221,8 @@
 
   function saveImage() {
     var vir_canvas = document.createElement("canvas");
-    // vir_canvas.width = outputImage.width;
-    // vir_canvas.height = outputImage.height;
+    vir_canvas.width = outputImage.width;
+    vir_canvas.height = outputImage.height;
     var vir_ctx = vir_canvas.getContext("2d");
     vir_ctx.drawImage(outputImage, 0, 0);
 
