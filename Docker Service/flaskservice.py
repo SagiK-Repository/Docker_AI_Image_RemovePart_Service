@@ -5,6 +5,7 @@ import base64
 from PIL import Image
 import io
 import subprocess
+import time
 
 app = Flask(__name__)
 CORS(app) # 클라이언트로부터의 요청에 대해 모든 도메인에서 접근 허용(CORS 허용)
@@ -41,17 +42,23 @@ def uploadImage():
 def runLaMa() :
     # result = subprocess.run(['PYTHONPATH=/home/user/lama TORCH_HOME=/home/user/lama python3 /home/user/lama/bin/predict.py model.path=/home/user/big-lama indir=/var/www/html/image outdir=/var/www/html/outdir dataset.img_suffix=.png > /dev/null'], capture_output=True, text=True)
     command = ['python3', '/home/user/lama/bin/predict.py', 'model.path=/home/user/big-lama', 'indir=/var/www/html/image', 'outdir=/var/www/html/output', 'dataset.img_suffix=.png']
+
+    start_time = time.time()
+
     result = subprocess.run(command, capture_output=True, text=True)
     
     # 실행 결과 출력
     output = result.stdout
     print(output)
     
-    return jsonify({'prediction': int(0)})
+    elapsed_time = time.time() - start_time
+    
+    return jsonify({'prediction': int(elapsed_time)})
 
 @app.route('/running', methods=['POST'])
 def running():
     print("running")
+
     # 이미지 데이터 받아오기 (JSON 형태)
     image_data_json=request.get_json()
     image_data = image_data_json['image_data']
