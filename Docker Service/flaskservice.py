@@ -31,7 +31,10 @@ def uploadImage():
 
     image = inaryImageToImage(image_data)
 
-    image.save('./image/image.png')
+    image_width = image.width
+    image_height = image.height
+
+    image.save('/var/www/html/image/image.png')
 
     return ""
 
@@ -43,8 +46,10 @@ def running():
     image_data = image_data_json['image_data']
 
     image = inaryImageToImage(image_data)
+    origianl_Image = Image.open('/var/www/html/image/image.png')
+    resize_image = image.resize(origianl_Image.size)
 
-    image.save('./image_mask.png')
+    resize_image.save('/var/www/html/image/image_mask.png')
 
     return jsonify({'prediction': int(0)})
 
