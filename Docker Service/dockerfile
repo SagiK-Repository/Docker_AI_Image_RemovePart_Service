@@ -15,12 +15,6 @@ RUN useradd -m ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USE
 # Install VSCode
 ENV WORKINGDIR="/home/${USER}"
 WORKDIR ${WORKINGDIR}
-RUN curl -fsSL https://code-server.dev/install.sh | sh
-
-RUN code-server --install-extension "ms-python.python" \ 
-                --install-extension "ms-toolsai.jupyter"
-
-CMD nohup code-server --bind-addr 0.0.0.0:8080 --auth password  ${WORKINGDIR}
 
 # minconda3
 ARG USERNAME=user
@@ -59,7 +53,6 @@ COPY . /var/www/html/
 
 EXPOSE 80
 EXPOSE 5000
-EXPOSE 8080
 
 # apachectl 실행에 root 권한이 필요.
 USER root

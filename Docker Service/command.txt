@@ -13,4 +13,4 @@ docker build -t juhyung1021/docker-vscode-python_lama:2.0 .
 docker build --no-cache -t juhyung1021/docker-vscode-python_lama:2.0 .
 
 # docker run
-docker run -it --gpus all --name docker-vscode-python_lama -p 18087:8080 -p 10180:80 -p 10181:5000 -d juhyung1021/docker-vscode-python_lama:2.0
+docker run -it --gpus all --name docker-vscode-python_lama -p 10180:80 -p 10181:5000 -d juhyung1021/docker-vscode-python_lama:2.0
