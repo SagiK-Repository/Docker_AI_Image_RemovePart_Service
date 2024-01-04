@@ -10,6 +10,7 @@
 - [x] [Web VSCode Jupyter Image Mask Drawing](#web-vscode-jupyter-image-mask-drawing-httpsgithubcomsagik-repositorydocker_ai_image_removepart_serviceissues4)
 - [x] [독립적인 Docker Python 환경에서 LaMa 구동 Test](#독립적인-docker-python-환경에서-lama-구동-test-httpsgithubcomsagik-repositorydocker_ai_image_removepart_serviceissues2)
 - [x] [GPU 활용한 LaMa 구동](#gpu-활용한-lama-구동-httpsgithubcomsagik-repositorydocker_ai_image_removepart_serviceissues5)
+- [x] [Web Image Service UI 만들기 및 Service 구성]()
 
 ### 제작자
 [@SAgiKPJH](https://github.com/SAgiKPJH)
@@ -69,4 +70,24 @@
   # or
   
   nvidia-docker run -it -p 18087:8080 -d juhyung1021/docker-vscode-python_lama:set-11.1-gpu
+  ```
+
+<br><br>
+
+### Web Image Service UI 만들기 및 Service 구성 (https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/issues/7)
+
+![image](https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/assets/66783849/98522712-90ee-4094-88fa-eede2bbba084)  
+  
+📽️Video▶️  
+
+https://github.com/SagiK-Repository/Docker_AI_Image_RemovePart_Service/assets/66783849/67dba7ba-400d-40d1-a184-c3a9d30ab99f  
+
+
+- 빠른 시작  
+  ```bash
+  docker run -it --gpus all --name docker-vscode-python_lama -p 10180:80 -p 10181:5000 -d juhyung1021/docker-vscode-python_lama:2.0
+  
+  # or
+  
+  nvidia-docker run -it -p 10180:80 -p 10181:5000 -d juhyung1021/docker-vscode-python_lama:2.0
   ```
