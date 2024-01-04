@@ -40,6 +40,19 @@
 
 <script>
 
+  // -------------------- result image ------------------------
+  
+  var resultCanvas = document.getElementById("resultCanvas");
+  var result_ctx = resultCanvas.getContext("2d");
+    var outputImage = document.getElementById("outputImage");
+    outputImage.onload = function() {
+      result_ctx.drawImage(outputImage, 0, 0, 500, 500);
+    };
+
+  function loadOutputImage(){
+    outputImage.src = "./output/image_mask.png"  + "?v=" + Date.now();
+  }
+
   // -------------------- drawing -----------------------
   var canvas = document.getElementById("myCanvas");
   var ctx_img = canvas.getContext("2d");
@@ -180,17 +193,7 @@
         loadOutputImage();
     })
     .catch(error => console.error('Error:', error));
-  }
 
-  var outputImage = document.getElementById("outputImage");
-  outputImage.onload = function() {
-        resultCanvas.drawImage(outputImage, 0, 0, 500, 500);
-  };
-
-  function loadOutputImage(){
-    var resultCanvas = document.getElementById("resultCanvas");
-    var ctx_img = resultCanvas.getContext("2d");
-    ctx_img.drawImage(outputImage, 0, 0, 500, 500);
   }
 
   function saveImage() {
