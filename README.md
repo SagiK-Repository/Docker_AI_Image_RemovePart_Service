@@ -37,7 +37,7 @@
 
 - 빠른 시작
   ```bash
-  docker run -it --gpus all --name vscode-container -p 18087:8080 juhyung1021/docker-vscode-python_lama:1.0-cpu
+  docker run -it --gpus all --name docker-vscode-python_lama -p 18087:8080 juhyung1021/docker-vscode-python_lama:1.0-cpu
 
   # or
   
